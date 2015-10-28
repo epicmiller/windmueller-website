@@ -12,7 +12,7 @@ config = {
     // When running Ghost in the wild, use the production environment.
     // Configure your URL and mail settings here
     production: {
-        url: 'http://windmuellerfamily.com',
+        url: 'http://windmueller.org/window',
         mail: {},
         database: {
             client: 'sqlite3',
