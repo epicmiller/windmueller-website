@@ -114,15 +114,18 @@
 //     next();
 //   });
 
+// Get Ghost Config
   ghost({
     config: path.join(__dirname, 'ghost/config.js')
   }).then(function (ghostServer) {
-      app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
-      ghostServer.start();
+      // Start the ghost server
+        app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
+        ghostServer.start();
+
+      // Automatically discover API in /api. Must be last middleware.
+        app.use(api(express));
   });
 
-// Automatically discover API in /api. Must be last middleware.
-  app.use(api(express));
 
 // Start Server
   http.createServer(app).listen(app.get('port'), function(){
