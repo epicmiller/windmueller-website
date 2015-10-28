@@ -92,8 +92,8 @@
     }
   }));
 
-// Enable csrf
-  app.use(csrf());
+// // Enable csrf
+//   app.use(csrf());
 
 // // csrf error handler
 //   app.use(function (err, req, res, next) {

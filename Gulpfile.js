@@ -28,7 +28,9 @@ gulp.task('rebound', ['clean'], function(){
   .pipe(gulp.dest('dist/apps'));
 });
 
-gulp.task('default', ['rebound', 'sass', 'index'], function () {
+gulp.task('build', ['rebound', 'sass', 'index'], function () {});
+
+gulp.task('default', ['build'], function () {
 
     // Start the server at the beginning of the task
     server.run(['app.js']);
