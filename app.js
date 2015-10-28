@@ -3,7 +3,7 @@
 */
 
   var UNIQUE_KEY = 'unique-key-here';
-  var PORT = '3005';
+  var PORT = '3006';
 
 // Core Dependencies
   var path            = require('path');
@@ -72,8 +72,8 @@
 
 // Force https if in production environment
   if(!devEnv){
-    app.set('trust proxy', 1);
-    app.use(enforce_ssl());
+    // app.set('trust proxy', 1);
+    // app.use(enforce_ssl());
   }
 
 // Set Static Content Locations
