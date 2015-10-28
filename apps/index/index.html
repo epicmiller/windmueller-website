@@ -1,8 +1,13 @@
 <element name="home-page">
   <template>
     <style></style>
-    Welcome Home!
-    <a href="/foo">Go to foo</a>
+    <iframe id="forum_embed"
+      src="javascript:void(0)"
+      scrolling="no"
+      frameborder="0"
+      width="900"
+      height="700">
+    </iframe>
   </template>
   <script>
     return {
@@ -10,6 +15,10 @@
         '': 'index'
       },
       index: function(){
+        document.getElementById('forum_embed').src =
+           'https://groups.google.com/forum/embed/?place=forum/windmueller'
+           + '&showsearch=true&showpopout=true&showtabs=false'
+           + '&parenturl=' + encodeURIComponent(window.location.href);
         return 1;
       }
     }

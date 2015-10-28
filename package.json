@@ -19,6 +19,7 @@
     "express": "~4.0.0",
     "express-enforces-ssl": "^1.1.0",
     "express-session": "^1.11.3",
+    "ghost": "^0.7.1",
     "gulp": "^3.9.0",
     "gulp-express": "^0.3.5",
     "gulp-rebound": "^1.0.0",
@@ -28,7 +29,7 @@
     "morgan": "^1.6.1",
     "multer": "^0.1.7",
     "rebound-api": "^1.0.3",
-    "reboundjs": "0.0.90",
+    "reboundjs": "0.1.0",
     "serve-favicon": "^2.3.0"
   }
 }

@@ -6,6 +6,7 @@
   var PORT = '3005';
 
 // Core Dependencies
+  var path            = require('path');
   var bodyParser      = require('body-parser');
   var compress        = require('compression');
   var colour          = require('colour');
@@ -13,7 +14,7 @@
   var csrf            = require('csurf');
   var errorHandler    = require('errorhandler');
   var express         = require('express');
-  var enforce_ssl    = require('express-enforces-ssl');
+  var enforce_ssl     = require('express-enforces-ssl');
   var helmet          = require('helmet');
   var http            = require('http');
   var methodOverride  = require('method-override');
@@ -22,6 +23,7 @@
   var path            = require('path');
   var api             = require('rebound-api');
   var favicon         = require('serve-favicon');
+  var ghost           = require('ghost');
 
 // Session Manageent
   var session         = require('express-session');
@@ -56,7 +58,7 @@
     fontSrc: ["'self'"],
     objectSrc: ["'self'"],
     mediaSrc: ["'self'"],
-    frameSrc: ["'self'"],
+    frameSrc: ["'self'", 'groups.google.com'],
     reportUri: '/put-xss-logging-uri-here',
     reportOnly: false, // set to true if you only want to report errors
     setAllHeaders: true, // set to true if you want to set all headers
@@ -110,6 +112,13 @@
       signed: false
     });
     next();
+  });
+
+  ghost({
+    config: path.join(__dirname, 'ghost/config.js')
+  }).then(function (ghostServer) {
+      app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
+      ghostServer.start();
   });
 
 // Automatically discover API in /api. Must be last middleware.
