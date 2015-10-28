@@ -22,7 +22,7 @@
     "tests"
   ],
   "dependencies": {
-    "reboundjs": "~0.1.0",
+    "reboundjs": "~0.1.1",
     "underscore": "~1.8.3"
   }
 }
