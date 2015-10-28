@@ -95,24 +95,24 @@
 // Enable csrf
   app.use(csrf());
 
-// csrf error handler
-  app.use(function (err, req, res, next) {
-    if (err.code !== 'EBADCSRFTOKEN'){ return next(err); }
-    res.status(403);
-    res.json({status: 'error', message: 'Session has expired or form tampered with'});
-  });
-
-// Set our csrf cookie for the session on first load
-  app.use(function(req, res, next){
-    // Create a csrf token for this session, or use the existing one
-    req.session.csrf || (req.session.csrf = req.csrfToken());
-    // Save it in a cookie. Browser sends this in the x-csrf-token header.
-    res.cookie('csrf', req.session.csrf, {
-      maxAge: (1000 * 10),
-      signed: false
-    });
-    next();
-  });
+// // csrf error handler
+//   app.use(function (err, req, res, next) {
+//     if (err.code !== 'EBADCSRFTOKEN'){ return next(err); }
+//     res.status(403);
+//     res.json({status: 'error', message: 'Session has expired or form tampered with'});
+//   });
+//
+// // Set our csrf cookie for the session on first load
+//   app.use(function(req, res, next){
+//     // Create a csrf token for this session, or use the existing one
+//     req.session.csrf || (req.session.csrf = req.csrfToken());
+//     // Save it in a cookie. Browser sends this in the x-csrf-token header.
+//     res.cookie('csrf', req.session.csrf, {
+//       maxAge: (1000 * 10),
+//       signed: false
+//     });
+//     next();
+//   });
 
   ghost({
     config: path.join(__dirname, 'ghost/config.js')
