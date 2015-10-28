@@ -1,0 +1,28 @@
+{
+  "name": "rebound-seed",
+  "version": "0.0.1",
+  "homepage": "https://github.com/reboundjs/rebound-seed",
+  "authors": [
+    "Adam Miller <ammiller@linkedin.com>"
+  ],
+  "description": "Rebound seed repository",
+  "main": "index.html",
+  "keywords": [
+    "rebound",
+    "seed",
+    "reboundjs"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "reboundjs": "~0.0.91",
+    "underscore": "~1.8.3"
+  }
+}

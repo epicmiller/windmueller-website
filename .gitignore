@@ -25,3 +25,9 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+<<<<<<< HEAD
+=======
+
+# Rebound Seed Specific Ignores
+dist
+>>>>>>> 1c9a5a9e15ad19420a175dc5f534dfb5f7c44a59

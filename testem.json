@@ -1,0 +1,19 @@
+{
+  "framework": "qunit",
+  "on_start": "npm build",
+  "launch_in_dev": ["Chrome", "PhantomJS"],
+  "unsafe_file_serving": true,
+  "cwd": "public",
+  "route": {
+    "/node_modules": "../node_modules"
+  },
+  "watch_files": [
+    "public/templates/**/*.js",
+    "public/tests/**/*.js"
+  ],
+  "src_files": [
+    "javascripts/vendor/bluebird/js/browser/bluebird.js",
+    "javascripts/vendor/reboundjs/rebound.test.js",
+    "tests/**/*.js"
+  ]
+}

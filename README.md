@@ -1,2 +1,2 @@
-# windmueller-website
+# Windmueller Website
 The Windmueller Family Website
