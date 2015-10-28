@@ -1,0 +1,11 @@
+body{
+  background: white;
+
+  iframe{
+    width: 100vw;
+    height: calc(100vh - 30px);
+    top: 30px;
+    left: 0px;
+    position: fixed;
+  }
+}
