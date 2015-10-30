@@ -5,10 +5,12 @@
   </template>
   <script>
     return {
+      url: '/google/contacts',
       routes: {
         '': 'index'
       },
       index: function(){
+        this.fetch({}).then(function(){});
         return 1;
       }
     }

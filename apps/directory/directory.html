@@ -1,0 +1,22 @@
+<element name="windmueller-directory">
+  <template>
+    <style></style>
+    <ul>
+      {{#each data.feed.entry as |user|}}
+        <li>{{if user.title.$t user.title.$t 'No Name'}} : {{user.gd$email.0.address}}</li>
+      {{/each}}
+    </ul>
+  </template>
+  <script>
+    return {
+      url: '/google/contacts',
+      routes: {
+        'directory': 'directory'
+      },
+      directory: function(){
+        this.fetch();
+        return 1;
+      }
+    }
+  </script>
+</element>

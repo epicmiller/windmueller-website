@@ -46,6 +46,9 @@
 // Development Logging
   if(devEnv) app.use(errorHandler());
 
+// Load Our Google APIs
+app.get('*', require('./lib/google'));
+
 // Set Helmet Security Headers
   app.use(helmet.xframe()); // frame busting
   app.use(helmet.xssFilter()); // ie9+ and chrome xss busting
