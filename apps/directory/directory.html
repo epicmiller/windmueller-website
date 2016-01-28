@@ -1,22 +1,38 @@
 <element name="windmueller-directory">
   <template>
     <style></style>
-    <ul>
-      {{#each data.feed.entry as |user|}}
+    Find By Name: <input value={{nameFilter}}>
+    Find By Location: <input value={{locationFilter}}>
+    <ol>
+      {{#each filteredList as |user|}}
         <li>{{if user.title.$t user.title.$t 'No Name'}} : {{user.gd$email.0.address}}</li>
       {{/each}}
-    </ul>
+    </ol>
   </template>
   <script>
     return {
       url: '/google/contacts',
+
       routes: {
         'directory': 'directory'
       },
+
       directory: function(){
-        this.fetch();
-        return 1;
+        return this.fetch();
+      },
+
+      get filteredList(){
+        var name = this.get('nameFilter');
+        var location = this.get('locationFilter');
+        var list = this.get('data.feed.entry') || [];
+        if(!name || !list){ return list; }
+        return list.filter(function(user){
+          var nameMatch = name ? (user.get('title.$t').toLowerCase().indexOf(name.toLowerCase()) !== -1) : true;
+          var locationMatch = location ? (user.get('title.gd$postalAddress').toLowerCase().indexOf(location.toLowerCase()) !== -1) : true;
+          return locationMatch && nameMatch;
+        });
       }
+
     }
   </script>
 </element>
