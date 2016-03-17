@@ -1,3 +1,93 @@
 body{
   background: white;
+  margin-right: 300px;
+
+  .placeholder{
+    color: #aaa;
+    width: 100%;
+    text-align: center;
+    margin: 30px 0;
+    display: block;
+  }
+
+  .selected-list{
+    width:300px;
+    right:0;
+    top:0;
+    height: 100vh;
+    border-left:1px solid #ccc;
+    position:fixed;
+    margin:0;
+    z-index:999;
+    background:#fff;
+    box-sizing: border-box;
+    padding-bottom: 45px;
+
+
+    ul{
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      padding: 0;
+      margin: 0;
+    }
+
+    .clear-all{
+      position: absolute;
+      font-weight: 200;
+      font-family: sans-serif;
+      bottom: 0;
+      left: 0;
+      height: 45px;
+      background-color: #C00;
+      width: 45px;
+      font-size: 30px;
+      text-align: center;
+      line-height: 45px;
+      color: #FFF;
+      border:0;
+      opacity: .5;
+      padding: 0;
+      &.active{
+        opacity: 1;
+      }
+    }
+  }
+
+  ol.filtered-list{
+    margin: 0;
+    padding: 0;
+
+    li{
+      width: 25%;
+      padding: 8px;
+      float: left;
+      height: 230px;
+      box-sizing: border-box;
+      margin: 0;
+      list-style: none;
+      label {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: pointer;
+        position: relative;
+        box-sizing: border-box;
+        padding: 16px;
+        &.selected{
+          background-color: #0E0;
+        }
+        input {
+          opacity: 0;
+          position: absolute;
+        }
+
+        h3{
+          margin: 0;
+        }
+      }
+
+    }
+  }
 }

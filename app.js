@@ -117,19 +117,20 @@ app.get('*', require('./lib/google'));
 //   });
 
 // Get Ghost Config
-  ghost({
-    config: path.join(__dirname, 'ghost/config.js')
-  }).then(function (ghostServer) {
-      // Start the ghost server
-        app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
-        ghostServer.start();
-
-      // Enable Uploads
-        app.use(multer({ dest: './dist/tmp/uploads/' }));
-
-      // Automatically discover API in /api. Must be last middleware.
-        app.use(api(express));
-  });
+  // ghost({
+  //   config: path.join(__dirname, 'ghost/config.js')
+  // }).then(function (ghostServer) {
+  //     // Start the ghost server
+  //       app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
+  //       ghostServer.start();
+  //
+  //     // Enable Uploads
+  //       app.use(multer({ dest: './dist/tmp/uploads/' }));
+  //
+  //     // Automatically discover API in /api. Must be last middleware.
+  //       app.use(api(express));
+  // });
+  app.use(api(express));
 
 
 // Start Server

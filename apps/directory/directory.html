@@ -3,13 +3,53 @@
     <style></style>
     Find By Name: <input value={{nameFilter}}>
     Find By Location: <input value={{locationFilter}}>
-    <ol>
+    <input type="checkbox" checked={{allChecked}} id="check_all" {{on 'click' 'selectAll'}}>
+    <label for="check_all">Select All</label>
+
+    <button {{on 'click' 'clearSearch'}}>Clear Search</button>
+
+    <section class="selected-list">
+      <ul>
+        <span class="placeholder">
+          {{#unless selectedList}}
+            Select people to message
+          {{else}}
+            {{length selectedList}} Selected
+          {{/unless}}
+        </span>
+        {{#each selectedList as |user|}}
+          <li>
+            <button {{on 'click' 'remove' user=user }}>X</button>
+            {{if user.title.$t user.title.$t 'No Name'}}
+          </li>
+        {{/each}}
+      </ul>
+      <button class="clear-all {{if selectedList 'active'}}" {{on 'click' 'clearAll'}}>x</button>
+    </section>
+
+    <p class="placeholder">{{length filteredList}} Results</p>
+
+    <ol class="filtered-list">
       {{#each filteredList as |user|}}
-        <li>{{if user.title.$t user.title.$t 'No Name'}} : {{user.gd$email.0.address}}</li>
+        <li>
+          <label for={{user.id.$t}} class="{{if user.selected 'selected'}}">
+            <input type="checkbox" id={{user.id.$t}} checked={{user.selected}}>
+            <h3>{{if user.title.$t user.title.$t 'No Name'}}</h3>
+            <h4>{{user.gd$email.0.address}}</h4>
+            <p>{{user.gd$postalAddress.0.$t}}</p>
+          </label>
+        </li>
       {{/each}}
     </ol>
   </template>
   <script>
+
+    var Feed = Rebound.Collection.extend({
+      model: Rebound.Model.extend({
+        idAttribute: "id.$t"
+      })
+    })
+
     return {
       url: '/google/contacts',
 
@@ -21,16 +61,54 @@
         return this.fetch();
       },
 
+      selectAll: function(){
+        var allChecked = this.get('allChecked');
+        this.get('filteredList').forEach(function(user){
+          user.set('selected', !allChecked);
+        });
+      },
+
+      clearAll: function(){
+        this.get('selectedList').forEach(function(user){
+          user.set('selected', false);
+        });
+      },
+
+      clearSearch: function(){
+        this.set('nameFilter', '');
+        this.set('locationFilter', '');
+      },
+
+      remove: function(e){
+        e.data.user.set('selected', false);
+      },
+
+      data: {
+        feed: {
+          entry: new Feed()
+        }
+      },
+
+      get selectedList(){
+        return this.get('data.feed.entry').filter(function(user){return user.get('selected')});
+      },
+
       get filteredList(){
         var name = this.get('nameFilter');
         var location = this.get('locationFilter');
-        var list = this.get('data.feed.entry') || [];
-        if(!name || !list){ return list; }
-        return list.filter(function(user){
+        return this.get('data.feed.entry').filter(function(user){
           var nameMatch = name ? (user.get('title.$t').toLowerCase().indexOf(name.toLowerCase()) !== -1) : true;
-          var locationMatch = location ? (user.get('title.gd$postalAddress').toLowerCase().indexOf(location.toLowerCase()) !== -1) : true;
+          var locationMatch = location ? ((user.get('gd$postalAddress.0.$t') || '').toLowerCase().indexOf(location.toLowerCase()) !== -1) : true;
           return locationMatch && nameMatch;
         });
+      },
+
+      get allChecked(){
+        var state = true
+        this.get('filteredList').forEach(function(user){
+          if(!user.get('selected')){ state = false;}
+        });
+        return state;
       }
 
     }
