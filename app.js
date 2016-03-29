@@ -24,6 +24,7 @@
   var api             = require('rebound-api');
   var favicon         = require('serve-favicon');
   var ghost           = require('ghost');
+  var crypto          = require('crypto');
 
 // Session Manageent
   var session         = require('express-session');
@@ -45,9 +46,6 @@
 
 // Development Logging
   if(devEnv) app.use(errorHandler());
-
-// Load Our Google APIs
-app.get('*', require('./lib/google'));
 
 // Set Helmet Security Headers
   app.use(helmet.xframe()); // frame busting
@@ -96,7 +94,7 @@ app.get('*', require('./lib/google'));
 
 // // Enable csrf
 //   app.use(csrf());
-
+//
 // // csrf error handler
 //   app.use(function (err, req, res, next) {
 //     if (err.code !== 'EBADCSRFTOKEN'){ return next(err); }
@@ -116,22 +114,33 @@ app.get('*', require('./lib/google'));
 //     next();
 //   });
 
-// Get Ghost Config
-  // ghost({
-  //   config: path.join(__dirname, 'ghost/config.js')
-  // }).then(function (ghostServer) {
-  //     // Start the ghost server
-  //       app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
-  //       ghostServer.start();
-  //
-  //     // Enable Uploads
-  //       app.use(multer({ dest: './dist/tmp/uploads/' }));
-  //
-  //     // Automatically discover API in /api. Must be last middleware.
-  //       app.use(api(express));
-  // });
-  app.use(api(express));
+app.use(function(req, res, next){
+  if(req.xhr && crypto.createHash('md5').update(req.cookies.auth || '').digest('hex') !== '91d770a5ef756d3ebfdc7533c54cadf1'){
+    res.status(403);
+    return res.json({status: 'error', message: 'Session has expired or form tampered with'});
+  }
+  next();
+})
 
+// Get Ghost Config
+  ghost({
+    config: path.join(__dirname, 'ghost/config.js')
+  }).then(function (ghostServer) {
+
+      // Start the ghost server
+        app.use(ghostServer.config._config.paths.subdir, ghostServer.rootApp);
+        ghostServer.start();
+
+      // Enable Uploads
+        app.use(multer({ dest: './dist/tmp/uploads/' }));
+
+      // Automatically discover API in /api. Must be last middleware.
+        app.use(api(express));
+
+  });
+
+  // Load Our Google APIs
+  app.get('*', require('./lib/google'));
 
 // Start Server
   http.createServer(app).listen(app.get('port'), function(){

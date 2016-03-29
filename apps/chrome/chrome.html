@@ -6,11 +6,38 @@
       <li><a href="/forum">Forum</a></li>
       <li><a href="/directory">Directory</a></li>
       <li><a href="http://www.windmueller.org/window">Window</a></li>
+      {{#unless showAuth}}<li style="float: right"><button {{on 'click' 'logout'}}>Log Out</button></li>{{/unless}}
     </ul>
+    <modal class="{{if showAuth 'visible'}}">
+      <form {{on 'submit' 'setLogin'}}>
+        <label for="password">Please enter the password</label>
+        <input type="password" id="password" value="{{password}}" />
+        <button type="submit">Submit</button>
+      </form>
+    </modal>
   </template>
   <script>
     return {
-      routes: {}
+      routes: {},
+      password: '',
+      showAuth: false,
+      createdCallback(){
+        if (document.cookie.indexOf("auth") == -1) {
+          this.set('showAuth', true);
+        }
+      },
+      setLogin(event){
+        // set a new cookie
+        event.preventDefault();
+        expiry = new Date();
+        expiry.setTime(expiry.getTime()+(10*60*1000*6)); // One Hour
+        document.cookie = "auth="+this.get('password')+"; expires=" + expiry.toGMTString();
+        location.reload();
+      },
+      logout(){
+        document.cookie =  'auth=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        location.reload();
+      }
     }
   </script>
 </element>

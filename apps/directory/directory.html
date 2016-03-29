@@ -25,10 +25,11 @@
         {{/each}}
       </ul>
       <button class="clear-all {{if selectedList 'active'}}" {{on 'click' 'clearAll'}}>x</button>
+      <a href="{{mailingList}}" class="mail-to-list {{if selectedList 'active'}}" {{on 'click' 'sendMessage'}}>Message All</a>
     </section>
 
     <p class="placeholder">{{length filteredList}} Results</p>
-
+    {{#if loading}}<div class="loading" style="position: fixed; top: 50%; left: calc(50% - 150px); transform: translateX(-50%) translateY(-50%);"></div>{{/if}}
     <ol class="filtered-list">
       {{#each filteredList as |user|}}
         <li>
@@ -52,13 +53,18 @@
 
     return {
       url: '/google/contacts',
+      loading: false,
 
       routes: {
         'directory': 'directory'
       },
 
       directory: function(){
-        return this.fetch();
+        var self = this;
+        this.set('loading', true);
+        return this.fetch().onload = function(xhr){
+          self.set('loading', false);
+        };
       },
 
       selectAll: function(){
@@ -93,6 +99,12 @@
         return this.get('data.feed.entry').filter(function(user){return user.get('selected')});
       },
 
+      get mailingList(){
+        var list = [];
+        this.get('selectedList').each(function(user){ list.push(user.get('gd$email.0.address')); });
+        return 'mailto:' + list.join(',');
+      },
+
       get filteredList(){
         var name = this.get('nameFilter');
         var location = this.get('locationFilter');
@@ -109,6 +121,10 @@
           if(!user.get('selected')){ state = false;}
         });
         return state;
+      },
+
+      sendMessage: function(){
+        if(this.get('selectedList').length === 0){ return false; }
       }
 
     }
