@@ -1,0 +1,9 @@
+<section>
+  {{#each model as |dat|}}
+    <div class="user-card">
+      <h1>{{dat.firstName}} {{dat.lastName}} {{if dat.nickname (concat "(" dat.nickname ")")}}</h1>
+      <h2>{{dat.email1}}</h2>
+      <h2>{{dat.email2}}</h2>
+    </div>
+  {{/each}}
+</section>
