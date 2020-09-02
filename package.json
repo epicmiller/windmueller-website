@@ -22,7 +22,7 @@
     "gdata-js": "^3.0.1",
     "ghost": "^0.7.3",
     "google-auth-library": "^0.9.6",
-    "googleapis": "^2.1.6",
+    "googleapis": "^59.0.0",
     "gulp": "^3.9.0",
     "gulp-express": "^0.3.5",
     "gulp-rebound": "^0.3.0",
